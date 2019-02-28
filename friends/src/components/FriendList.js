@@ -14,8 +14,7 @@ export default function FriendList(props) {
             <h3>{allFriends.age}</h3>
             <p>{allFriends.email}</p>
         </div>
-    ))}
-      
+    ))}      
     </div>
   )
 }

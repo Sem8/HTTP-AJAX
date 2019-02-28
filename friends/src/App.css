@@ -10,6 +10,9 @@
   display: flex;
   justify-content: center;
   border: 2px solid saddlebrown;
+  color: papayawhip;
+  font-size: 20px;
+  text-decoration: none;
 
 }
 
@@ -24,7 +27,7 @@
 
 .eachFriendCard {
   width: 500px;
-  margin: 15px auto;  
+  margin: 25px auto;  
   border-radius: 50px;
   padding: 15px;
   background: salmon;
