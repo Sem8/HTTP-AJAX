@@ -13,6 +13,7 @@ export default function FriendList(props) {
             <h2>{allFriends.name}</h2>
             <h3>{allFriends.age}</h3>
             <p>{allFriends.email}</p>
+            <button onClick={(e => props.deleteName(e, allFriends.id))}>Delete</button>
         </div>
     ))}      
     </div>

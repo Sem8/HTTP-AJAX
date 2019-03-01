@@ -18,10 +18,23 @@ class App extends Component {
       
     };
   }
+
+  componentDidMount() {
+    console.log('CDM running');
+    axios
+    .get('http://localhost:5000/friends')
+    .then(res => {
+      // console.log(res);
+      this.setState({ lambdaFriends: res.data });
+    })
+    .catch(err => {
+      // console.log(err);
+      this.setState({ error: err });
+    });
+  };
   
   addAFriend = (e, item) => {
     e.preventDefault();
-
     // const newFriend = {      
     //   name: newName,
     //   age: newAge,
@@ -47,19 +60,22 @@ class App extends Component {
     })           
 } 
 
-  componentDidMount() {
-    console.log('CDM running');
-    axios
-    .get('http://localhost:5000/friends')
-    .then(res => {
-      // console.log(res);
-      this.setState({ lambdaFriends: res.data });
+deleteName = (e, id) => {
+  e.preventDefault();
+  axios.delete(`http://localhost:5000/friends/${id}`)
+  .then(res => {
+    // console.log(res);
+    this.setState({
+      lambdaFriends: res.data      
     })
-    .catch(err => {
-      // console.log(err);
-      this.setState({ error: err });
-    });
-  };
+    this.props.history.push('/friends')
+  })
+  .catch(err => {
+    console.log(err);
+  });
+}
+
+  
 
   render() {
     return (
@@ -69,7 +85,7 @@ class App extends Component {
 
         <Route path='/friends' exact
           render={
-            props => <FriendList {...props} friendsArr={this.state.lambdaFriends} />
+            props => <FriendList {...props} friendsArr={this.state.lambdaFriends} deleteName={this.deleteName} />
            }
         />
 
