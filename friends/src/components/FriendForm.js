@@ -5,20 +5,37 @@ export default class FriendForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            newName: '',
-            newAge: '',
-            newEmail: '',            
+            item: {
+                name: '',
+                age: '',
+                email: '',
+            }                        
         }               
     }
 
-    handleChanges = e => {        
-        this.setState({ [e.target.name]: e.target.value })
-    }
+    handleChanges = ev => {
+        ev.persist();
+        let value = ev.target.value;
+        if(ev.target.name === 'price') {
+            value = parseInt(value, 10);
+        }        
+        this.setState(prevState => ({ 
+            item: {
+                ...prevState.item,
+                [ev.target.name]: value
+            }
+           }));
+    };
 
-    submitFriend = e => {        
-        this.setState({newName: '', newAge: '', newEmail: ''});
-        this.props.addAFriend(e, this.state.newName, this.state.newAge, this.state.newEmail);
-        // window.location.reload();
+    submitFriend = e => { 
+        this.props.addAFriend(e, this.state.item);       
+        this.setState({
+            item: {
+                name: '', 
+                age: '', 
+                email: ''
+            }
+        });
     }      
     
   render() {
@@ -28,23 +45,23 @@ export default class FriendForm extends Component {
               <input
                 type='text' 
                 placeholder='New Lambda Friend'
-                value={this.state.newName}
+                value={this.state.item.name}
                 onChange={this.handleChanges}
-                name='newName'
+                name='name'
                 />
                 <input
                 type='number' 
                 placeholder='New Lambda Friend Age'
-                value={this.state.newAge}
+                value={this.state.item.age}
                 onChange={this.handleChanges}
-                name='newAge'
+                name='age'
                 />
                 <input
                 type='text' 
                 placeholder='New Lambda Friend email'
-                value={this.state.newEmail}
+                value={this.state.item.email}
                 onChange={this.handleChanges}
-                name='newEmail'
+                name='email'
                 />
                 <button onClick={this.submitFriend}>Add Friend</button>
 

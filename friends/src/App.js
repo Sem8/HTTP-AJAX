@@ -19,20 +19,32 @@ class App extends Component {
     };
   }
   
-  addAFriend = (e, newName, newAge, newEmail) => {
+  addAFriend = (e, item) => {
     e.preventDefault();
-    const newFriend = {
-      id: this.state.id,
-      name: newName,
-      age: newAge,
-      email: newEmail
-    }
-    this.setState({
-      lambdaFriends: [...this.state.lambdaFriends, newFriend],      
-      name: '',
-      age: '',
-      email: ''  
-    });            
+
+    // const newFriend = {      
+    //   name: newName,
+    //   age: newAge,
+    //   email: newEmail
+    // }
+    // this.setState({
+    //   lambdaFriends: [...this.state.lambdaFriends, newFriend],      
+    //   name: '',
+    //   age: '',
+    //   email: ''  
+    // }); 
+    axios
+    .post('http://localhost:5000/friends', item)
+    .then(res => {
+      // console.log(res);
+      this.setState({
+        lambdaFriends: res.data
+      });
+      this.props.history.push('/friends');      
+    })
+    .catch(err => {
+      console.log(err);
+    })           
 } 
 
   componentDidMount() {
@@ -46,8 +58,8 @@ class App extends Component {
     .catch(err => {
       // console.log(err);
       this.setState({ error: err });
-    })
-  }
+    });
+  };
 
   render() {
     return (
