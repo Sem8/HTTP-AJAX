@@ -5,12 +5,28 @@ export default class FriendForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: {
+            item: this.props.activeItem || {
                 name: '',
                 age: '',
                 email: '',
-            }                        
+            }
+            // item: {
+            //     name: '',
+            //     age: '',
+            //     email: '',
+            // }                        
         }               
+    }
+
+    componentDidUpdate(prevProps) {
+        if(
+            this.props.activeItem &&
+            prevProps.activeItem !== this.props.activeItem
+        ) {
+            this.setState({
+                item: this.props.activeItem
+            })
+        }
     }
 
     handleChanges = ev => {

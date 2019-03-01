@@ -12,6 +12,11 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      activeItem: {
+        name: '',
+        age: '',
+        email: '',
+      },
       lambdaFriends: [], 
       error: ''
       
@@ -75,6 +80,30 @@ deleteName = (e, id) => {
   });
 }
 
+setUpdateForm = (e, item) => {
+  e.preventDefault();
+  this.setState({
+    activeItem: item
+  });
+  this.props.history.push('/form');
+};
+
+updateFriend = (e, item) => {
+  e.preventDefault();
+  axios.put(`http://localhost:5000/friends/${item.id}`, item)
+  .then(res => {
+    // console.log(res);
+    this.setState({
+      activeItem: null,
+      lambdaFriends: res.data      
+    })
+    this.props.history.push('/friends')
+  })
+  .catch(err => {
+    console.log(err);
+  });
+}
+
   
 
   render() {
@@ -85,13 +114,21 @@ deleteName = (e, id) => {
 
         <Route path='/friends' exact
           render={
-            props => <FriendList {...props} friendsArr={this.state.lambdaFriends} deleteName={this.deleteName} />
+            props => <FriendList {...props} 
+            friendsArr={this.state.lambdaFriends} 
+            deleteName={this.deleteName} 
+            setUpdateForm={this.setUpdateForm}/>
            }
         />
 
         <Route path='/form' exact
          render={
-           props => <FriendForm {...props} friendsArr={this.state.lambdaFriends} addAFriend={this.addAFriend} value={this.state.newFriend}/> 
+           props => <FriendForm {...props} 
+           friendsArr={this.state.lambdaFriends} 
+           addAFriend={this.addAFriend} 
+           value={this.state.newFriend}
+           activeItem={this.state.activeItem}
+           /> 
          }
         />
         
