@@ -110,7 +110,9 @@ updateFriend = (e, item) => {
     return (
       <div className="App">
         <NavLink to='/friends'><button className='clickBtn'>Click to See Lambda Friends</button></NavLink>
-        <NavLink to='/form'><button className='clickBtn'>Click to add Friend</button></NavLink>
+        {/* <NavLink to='/form'><button className='clickBtn'>Click to add Friend</button></NavLink> */}
+        <NavLink to='/form'><button className='clickBtn'>{`${this.state.activeItem ? 'Update' : 'Add new'} Friend`}</button></NavLink>
+        
 
         <Route path='/friends' exact
           render={
@@ -128,6 +130,7 @@ updateFriend = (e, item) => {
            addAFriend={this.addAFriend} 
            value={this.state.newFriend}
            activeItem={this.state.activeItem}
+           updateFriend={this.updateFriend}
            /> 
          }
         />

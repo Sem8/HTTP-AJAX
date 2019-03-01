@@ -43,8 +43,23 @@ export default class FriendForm extends Component {
            }));
     };
 
-    submitFriend = e => { 
-        this.props.addAFriend(e, this.state.item);       
+    // submitFriend = e => { 
+    //     this.props.addAFriend(e, this.state.item);       
+    //     this.setState({
+    //         item: {
+    //             name: '', 
+    //             age: '', 
+    //             email: ''
+    //         }
+    //     });
+    // }
+    
+    handleSubmit = e => {
+        if (this.props.activeItem) {
+            this.props.updateFriend(e, this.state.item)
+        } else {
+            this.props.addAFriend(e, this.state.item); 
+        }              
         this.setState({
             item: {
                 name: '', 
@@ -52,12 +67,13 @@ export default class FriendForm extends Component {
                 email: ''
             }
         });
-    }      
+    }
     
   render() {
     return (
       <div>
-          <form onSubmit={this.submitFriend}>
+          <form onSubmit={this.handleSubmit}>
+          <h2>{`${this.props.activeItem ? 'Update' : 'Add new'} Friend`}</h2>
               <input
                 type='text' 
                 placeholder='New Lambda Friend'
@@ -79,7 +95,7 @@ export default class FriendForm extends Component {
                 onChange={this.handleChanges}
                 name='email'
                 />
-                <button onClick={this.submitFriend}>Add Friend</button>
+                <button onClick={this.submitFriend}>{`${this.props.activeItem ? 'Update' : 'Add new'} Friend`}</button>
 
                 {this.props.friendsArr.map(allFriends => (
                     <div key={allFriends.id} className='eachFriendCard'>
